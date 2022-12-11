@@ -35,7 +35,7 @@ jackson_family.add_member({
                 "age": 5,
                 "lucky_numbers": [1]
             })
-
+        
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
@@ -52,16 +52,14 @@ def get_members():
     # this is how you can use the Family datastructure by calling its methods
     members = jackson_family.get_all_members()
     # response_body = {
-    #     "hello": "world",
     #     "family": members
     # }
-
 
     # return jsonify(response_body), 200
     return jsonify(members)
 
 @app.route('/member/<int:member_id>', methods=['GET'])
-def single_member():
+def get_one_member(member_id):
 
     # this is how you can use the Family datastructure by calling its methods
     member = jackson_family.get_member(member_id)
@@ -75,27 +73,27 @@ def single_member():
 def add_member():
 
     # this is how you can use the Family datastructure by calling its methods
-    memerInfo = request.json
-    newMember = jackson_family.add_member(memberInfo)
+    print(request.json)
+    infomember = request.json
+    newMember = jackson_family.add_member(infomember)
     response_body = {
         "family": newMember
-     }
+    }
 
     return jsonify(response_body), 200
 
 @app.route('/member/<int:member_id>', methods=['DELETE'])
-def delete_member():
+def delete_member(member_id):
 
     # this is how you can use the Family datastructure by calling its methods
-    delMember = jackson_family.delete_member(member_id)
-    if (delMember):
+    sinpersona = jackson_family.delete_member(member_id)
+    if sinpersona:
         response_body = {
-            "done": True
+        "done": True
         }
         return jsonify(response_body), 200
-
-    return "bad request (wrong info) screw up", 400
-
+    
+    return "bad request (wrong info) screw up",400
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
